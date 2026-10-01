@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Yili is a product-minded backend builder in Taiwan who turns daily problems into reliable AI-powered tools.">
+  <meta name="theme-color" content="#07111f">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Yili — Product-minded builder">
+  <meta property="og:description" content="Reliable AI-powered systems built from real daily friction.">
+  <meta property="og:url" content="https://yili-code.github.io/">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://yili-code.github.io/">
+  <title>Yili — Product-minded builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307111f'/%3E%3Cpath d='M14 18l18 20 18-20M32 38v12' fill='none' stroke='%235eead4' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #eef5f3;
+      --muted: #93a7ad;
+      --dim: #60747c;
+      --base: #07111f;
+      --base-2: #0a1828;
+      --panel: rgba(15, 34, 51, 0.78);
+      --line: rgba(151, 185, 190, 0.18);
+      --mint: #5eead4;
+      --cyan: #38bdf8;
+      --amber: #f7c76d;
+      --max: 1180px;
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--base);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 82% 5%, rgba(56, 189, 248, 0.13), transparent 31rem),
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px),
+        var(--base);
+      background-size: auto, 48px 48px, 48px 48px, auto;
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    :focus-visible {
+      outline: 3px solid var(--mint);
+      outline-offset: 4px;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 17, 31, 0.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .mark-symbol {
+      width: 34px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      color: var(--base);
+      background: var(--mint);
+      border-radius: 10px;
+      font-size: 0.83rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      transition: color 160ms ease;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+      align-items: center;
+      gap: clamp(48px, 7vw, 104px);
+      padding-block: 92px 84px;
+    }
+
+    .eyebrow,
+    .section-kicker,
+    .project-index {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.75rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--mint);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 2px;
+      background: var(--mint);
+    }
+
+    h1 {
+      max-width: 830px;
+      margin: 26px 0 28px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+      font-size: clamp(3.25rem, 7vw, 6.8rem);
+      line-height: 0.94;
+      letter-spacing: -0.055em;
+    }
+
+    h1 em {
+      color: var(--mint);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-copy {
+      max-width: 660px;
+      margin: 0;
+      color: #b8c8cc;
+      font-size: clamp(1.05rem, 1.5vw, 1.24rem);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 38px;
+    }
+
+    .button {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: transparent;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(94, 234, 212, 0.65);
+    }
+
+    .button.primary {
+      color: #06131d;
+      background: var(--mint);
+      border-color: var(--mint);
+    }
+
+    .hero-contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+    }
+
+    .hero-contacts a {
+      text-decoration-color: rgba(94, 234, 212, 0.5);
+      text-underline-offset: 5px;
+    }
+
+    .proof-panel {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(26px, 4vw, 44px);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: linear-gradient(145deg, rgba(16, 42, 59, 0.94), rgba(7, 17, 31, 0.8));
+      box-shadow: 0 30px 90px rgba(0,0,0,0.28);
+    }
+
+    .proof-panel > p {
+      margin: 0;
+      color: var(--mint);
+      font: 0.76rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .proof-panel h2 {
+      max-width: 430px;
+      margin: 22px 0 34px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      font-weight: 500;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .proof-list {
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .proof-list li {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: 20px;
+      padding: 19px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .proof-list strong { color: var(--ink); }
+    .proof-list span { color: var(--muted); }
+
+    section { scroll-margin-top: 90px; }
+
+    .section-block {
+      padding-block: 108px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.45fr 1.55fr;
+      gap: 36px;
+      align-items: start;
+      margin-bottom: 58px;
+    }
+
+    .section-kicker { color: var(--mint); }
+
+    .section-title {
+      max-width: 850px;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.35rem, 5vw, 4.5rem);
+      font-weight: 500;
+      line-height: 1.03;
+      letter-spacing: -0.045em;
+    }
+
+    .projects { display: grid; gap: 28px; }
+
+    .project {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+      min-height: 510px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(9, 24, 39, 0.78);
+    }
+
+    .project:nth-child(even) .project-copy { order: 2; }
+    .project:nth-child(even) .project-media { order: 1; }
+
+    .project-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(28px, 5vw, 56px);
+    }
+
+    .project-index { color: var(--cyan); }
+
+    .project h3 {
+      margin: 19px 0 18px;
+      font-family: Georgia, serif;
+      font-size: clamp(2.25rem, 4vw, 4rem);
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .project-summary {
+      max-width: 570px;
+      margin: 0;
+      color: #d6e2e2;
+      font-size: 1.06rem;
+      line-height: 1.75;
+    }
+
+    .problem-label {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--mint);
+      font: 700 0.69rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .project-evidence {
+      margin-top: 26px;
+      padding: 17px 18px;
+      border-left: 2px solid var(--mint);
+      background: rgba(94, 234, 212, 0.055);
+      color: #cfe0df;
+      font-size: 0.93rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 30px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tags li {
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      color: var(--muted);
+      font: 0.73rem ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .project-link {
+      width: fit-content;
+      margin-top: 34px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid var(--mint);
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .project-media {
+      position: relative;
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 42px;
+      background:
+        radial-gradient(circle at 70% 20%, rgba(56,189,248,0.14), transparent 40%),
+        #050b13;
+    }
+
+    .project-media img {
+      position: relative;
+      z-index: 2;
+      display: block;
+      width: min(100%, 520px);
+      max-height: 430px;
+      object-fit: contain;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.48);
+      transform: rotate(1.4deg);
+    }
+
+    .project:nth-child(even) .project-media img { transform: rotate(-1.4deg); }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .method-step {
+      min-height: 270px;
+      padding: 28px;
+      background: var(--base-2);
+    }
+
+    .method-step b {
+      display: block;
+      margin-bottom: 58px;
+      color: var(--mint);
+      font: 0.76rem ui-monospace, monospace;
+    }
+
+    .method-step h3 { margin: 0 0 12px; font-size: 1.18rem; }
+    .method-step p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+    .principle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 42px;
+      margin-top: 34px;
+      padding: 38px;
+      border: 1px solid rgba(247,199,109,0.26);
+      background: rgba(247,199,109,0.045);
+    }
+
+    .principle strong {
+      color: var(--amber);
+      font-family: Georgia, serif;
+      font-size: clamp(1.55rem, 3vw, 2.4rem);
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .principle p { margin: 0; color: #bbc7ca; }
+
+    .contact {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 54px;
+      align-items: end;
+    }
+
+    .contact h2 {
+      max-width: 790px;
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: clamp(3rem, 6vw, 6rem);
+      font-weight: 500;
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .contact h2 span { color: var(--mint); font-style: italic; }
+
+    .contact-card {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+    }
+
+    .contact-card p { margin: 0 0 22px; color: var(--muted); }
+    .contact-card .button { width: 100%; }
+
+    .availability {
+      margin-top: 18px;
+      color: var(--dim);
+      font: 0.76rem ui-monospace, monospace;
+      line-height: 1.55;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding-block: 34px;
+      border-top: 1px solid var(--line);
+      color: var(--dim);
+      font: 0.76rem ui-monospace, monospace;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 600ms ease, transform 600ms ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 920px) {
+      .hero,
+      .section-head,
+      .contact { grid-template-columns: 1fr; }
+      .hero { padding-top: 72px; }
+      .project { grid-template-columns: 1fr; }
+      .project:nth-child(even) .project-copy,
+      .project:nth-child(even) .project-media { order: initial; }
+      .project-media { min-height: 360px; }
+      .method-grid { grid-template-columns: 1fr 1fr; }
+      .principle { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 24px, var(--max)); }
+      .nav { min-height: 64px; }
+      .nav-links a:not(.nav-contact) { display: none; }
+      .hero { min-height: auto; padding-block: 64px 70px; }
+      h1 { font-size: clamp(3.1rem, 17vw, 4.6rem); }
+      .section-block { padding-block: 78px; }
+      .project-copy { padding: 28px 22px; }
+      .project-media { min-height: 300px; padding: 24px; }
+      .method-grid { grid-template-columns: 1fr; }
+      .method-step { min-height: auto; }
+      .method-step b { margin-bottom: 34px; }
+      .principle { padding: 26px 22px; }
+      footer { flex-direction: column; }
+    }
+
+    /* Refined editorial system: every surface communicates product evidence. */
+    :root {
+      --ink: #edf3ef;
+      --muted: #93a7ad;
+      --dim: #6f858c;
+      --base: #06111d;
+      --base-2: #0a1a29;
+      --panel: rgba(12, 31, 47, 0.84);
+      --line: rgba(190, 220, 220, 0.17);
+      --mint: #62f3db;
+      --cyan: #54c8ff;
+      --amber: #f8c87a;
+      --max: 1240px;
+      --radius: 4px 28px 4px 28px;
+      --display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+      --sans: Manrope, "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", Consolas, monospace;
+    }
+
+    body {
+      min-width: 0;
+      background:
+        radial-gradient(850px circle at var(--pointer-x, 84%) var(--pointer-y, 8%), rgba(84, 200, 255, 0.12), transparent 48%),
+        linear-gradient(rgba(255,255,255,0.024) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.024) 1px, transparent 1px),
+        var(--base);
+      background-size: auto, 64px 64px, 64px 64px, auto;
+      font-family: var(--sans);
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection { color: var(--base); background: var(--mint); }
+
+    .page-progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 100;
+      width: 100%;
+      height: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      background: var(--mint);
+    }
+
+    .site-header { background: rgba(6, 17, 29, 0.8); backdrop-filter: blur(18px) saturate(140%); }
+    .mark-symbol { border-radius: 11px 11px 3px 11px; font-family: var(--mono); transition: border-radius 220ms ease, transform 220ms ease; }
+    .mark:hover .mark-symbol { border-radius: 3px 11px 11px 11px; transform: rotate(-4deg); }
+    .nav-links { font-family: var(--mono); }
+    .nav-links a { position: relative; padding-block: 6px; }
+    .nav-links a::after { content: ""; position: absolute; inset: auto 0 0; height: 1px; transform: scaleX(0); transform-origin: right; background: var(--mint); transition: transform 220ms ease; }
+    .nav-links a:hover::after,
+    .nav-links a[aria-current="true"]::after { transform: scaleX(1); transform-origin: left; }
+
+    .hero { grid-template-columns: minmax(0, 1.08fr) minmax(390px, 0.92fr); padding-block: clamp(76px, 10vw, 130px) 96px; }
+    .eyebrow,
+    .section-kicker,
+    .project-index { font-family: var(--mono); }
+    h1 { font-family: var(--display); font-size: clamp(4rem, 7.4vw, 7.5rem); line-height: 0.86; }
+    .hero-copy { color: #b9c8ca; }
+    .button { font-size: 0.92rem; transition: transform 180ms ease, box-shadow 180ms ease; }
+    .button:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(98,243,219,0.15); }
+    .hero-contacts { font-family: var(--mono); }
+
+    .proof-panel {
+      padding: clamp(28px, 4vw, 48px);
+      border-radius: var(--radius);
+      background: linear-gradient(150deg, rgba(16,43,61,0.96), rgba(7,19,32,0.9));
+      box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+    }
+    .proof-panel::after { content: ""; position: absolute; width: 300px; height: 300px; right: -140px; bottom: -180px; border: 1px solid rgba(98,243,219,0.35); border-radius: 50%; box-shadow: 0 0 80px rgba(98,243,219,0.12); pointer-events: none; }
+    .proof-panel h2,
+    .section-title,
+    .project h3,
+    .contact h2 { font-family: var(--display); }
+    .proof-panel > p { font-family: var(--mono); }
+    .proof-list li { transition: padding-left 180ms ease, border-color 180ms ease; }
+    .proof-list li:hover { padding-left: 8px; border-color: rgba(98,243,219,0.42); }
+
+    .section-block { padding-block: clamp(96px, 12vw, 158px); }
+    .section-head { grid-template-columns: 0.38fr 1.62fr; gap: clamp(30px, 6vw, 84px); margin-bottom: clamp(54px, 8vw, 90px); }
+    .section-title { font-size: clamp(3.15rem, 6vw, 6.2rem); line-height: 0.94; }
+    .section-deck { max-width: 690px; margin: 25px 0 0; color: var(--muted); font-size: 1.02rem; }
+
+    .projects { gap: 34px; }
+    .project { border-radius: var(--radius); transition: border-color 240ms ease, transform 240ms ease; }
+    .project:hover { border-color: rgba(98,243,219,0.36); }
+    .project h3 { font-size: clamp(3rem, 5vw, 5.4rem); }
+    .project-evidence { border-left: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: transparent; padding: 18px 0; }
+    .project-evidence strong { color: var(--mint); }
+    .tags li { font-family: var(--mono); }
+    .project-link { display: inline-flex; align-items: center; gap: 9px; border-bottom: 0; }
+    .project-link::after { content: "↗"; color: var(--mint); transition: transform 180ms ease; }
+    .project-link:hover::after { transform: translate(3px, -3px); }
+    .project-media { padding: clamp(24px, 4vw, 52px); }
+
+    .product-window {
+      width: min(100%, 680px);
+      overflow: hidden;
+      border: 1px solid rgba(190,220,220,0.28);
+      border-radius: 18px;
+      background: #091521;
+      box-shadow: 0 34px 80px rgba(0,0,0,0.48);
+      transition: transform 260ms ease;
+    }
+    .project:hover .product-window { transform: translateY(-5px); }
+    .window-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 13px 16px; border-bottom: 1px solid var(--line); color: var(--muted); font: 0.69rem var(--mono); }
+    .window-dots { display: inline-flex; gap: 6px; }
+    .window-dots i { width: 7px; height: 7px; border-radius: 50%; background: rgba(190,220,220,0.34); }
+    .gallery-tabs { display: flex; gap: 3px; padding: 5px; border-bottom: 1px solid var(--line); background: rgba(6,17,29,0.8); }
+    .gallery-tab { flex: 1; min-height: 39px; padding: 6px 10px; border: 0; border-radius: 8px; color: var(--muted); background: transparent; cursor: pointer; font: 500 0.7rem var(--mono); transition: color 180ms ease, background 180ms ease; }
+    .gallery-tab:hover { color: var(--ink); }
+    .gallery-tab[aria-selected="true"] { color: var(--base); background: var(--mint); }
+    .gallery-stage { position: relative; min-height: 460px; display: grid; place-items: center; padding: 22px; }
+    .gallery-panel { grid-area: 1 / 1; width: 100%; margin: 0; opacity: 0; transform: translateY(10px) scale(0.99); visibility: hidden; transition: opacity 240ms ease, transform 240ms ease, visibility 240ms; }
+    .gallery-panel.is-active { opacity: 1; transform: none; visibility: visible; }
+    .gallery-panel img { width: 100%; max-height: 390px; display: block; object-fit: contain; border: 0; border-radius: 0; box-shadow: none; transform: none !important; filter: drop-shadow(0 18px 30px rgba(0,0,0,0.34)); }
+    .gallery-panel figcaption { margin-top: 14px; color: var(--muted); font: 0.75rem var(--mono); text-align: center; }
+
+    .tracking-proof {
+      display: grid;
+      gap: 12px;
+      place-items: center;
+    }
+    .crypto-gallery .gallery-stage { transition: min-height 260ms ease; }
+    .crypto-gallery:has(#tab-commands[aria-selected="true"]) .gallery-stage { min-height: 590px; }
+    .tracking-proof img:first-child { max-height: 390px; }
+    .tracking-proof .reminder-shot {
+      width: min(76%, 430px);
+      max-height: 88px;
+      margin-left: auto;
+      border: 1px solid rgba(94,234,212,0.28);
+      border-radius: 12px;
+    }
+
+    .mnemosyne-gallery .gallery-stage { min-height: 520px; transition: min-height 260ms ease; }
+    .mnemosyne-gallery:has(#tab-mnemo-review[aria-selected="true"]) .gallery-stage { min-height: 260px; }
+    .mnemosyne-gallery .gallery-panel img { max-height: 450px; }
+    .mnemosyne-gallery .gallery-panel .review-shot { width: min(100%, 535px); }
+
+    .news-proof { width: min(100%, 620px); }
+    .news-crop {
+      aspect-ratio: 747 / 782;
+      overflow: hidden;
+      background: #0f1925;
+    }
+    .news-crop img {
+      width: 100%;
+      max-height: none;
+      height: auto;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      transform: none !important;
+    }
+    .news-proof figcaption {
+      margin: 0;
+      padding: 14px 18px 16px;
+      color: var(--muted);
+      font: 0.75rem var(--mono);
+      text-align: center;
+    }
+
+    .method-grid { border-color: var(--line); }
+    .method-step { background: var(--base-2); transition: background 220ms ease, transform 220ms ease; }
+    .method-step:hover { z-index: 1; transform: translateY(-6px); background: #0d2133; }
+    .method-step b { font-family: var(--mono); }
+    .principle { border-radius: 4px 20px 4px 20px; }
+    .principle strong { font-family: var(--display); }
+    .contact h2 { font-size: clamp(4.3rem, 8vw, 8.4rem); line-height: 0.84; }
+    .contact-card { border-radius: 4px 20px 4px 20px; }
+    .contact-email { display: inline-block; color: var(--ink); font-size: clamp(1.05rem, 2vw, 1.45rem); font-weight: 700; text-underline-offset: 7px; text-decoration-color: rgba(98,243,219,0.55); overflow-wrap: anywhere; }
+    .contact-email:hover { color: var(--mint); }
+    .availability,
+    footer { font-family: var(--mono); }
+
+    .reveal { transform: translateY(30px); transition: opacity 700ms cubic-bezier(.2,.75,.25,1), transform 700ms cubic-bezier(.2,.75,.25,1); }
+
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; }
+      .proof-panel { max-width: 720px; }
+      .section-head { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .nav-links a[href="#work"],
+      .nav-links .nav-contact { display: block !important; }
+      .hero { padding-top: 72px; gap: 58px; }
+      h1 { font-size: clamp(3.8rem, 18vw, 5.35rem); }
+      .proof-list li { grid-template-columns: 1fr; gap: 5px; }
+      .section-title { font-size: clamp(3.1rem, 15vw, 4.8rem); }
+      .project h3 { font-size: clamp(3rem, 15vw, 4.4rem); }
+      .project-media { min-height: 360px; padding: 18px; }
+      .gallery-stage { min-height: 350px; padding: 14px; }
+      .gallery-panel img { max-height: 292px; }
+      .crypto-gallery:has(#tab-commands[aria-selected="true"]) .gallery-stage { min-height: 470px; }
+      .tracking-proof img:first-child { max-height: 300px; }
+      .tracking-proof .reminder-shot { width: 88%; max-height: 72px; }
+      .mnemosyne-gallery .gallery-stage { min-height: 400px; }
+      .mnemosyne-gallery:has(#tab-mnemo-review[aria-selected="true"]) .gallery-stage { min-height: 220px; }
+      .mnemosyne-gallery .gallery-panel img { max-height: 330px; }
+      .gallery-tab { min-width: 94px; font-size: 0.64rem; }
+      .gallery-tabs { overflow-x: auto; }
+      .contact h2 { font-size: clamp(4rem, 20vw, 6rem); }
+    }
+
+    @media (max-width: 430px) {
+      .nav-links a[href="#method"] { display: none; }
+      .hero-contacts { flex-direction: column; }
+      .window-head > span:last-child { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="mark" href="#top" aria-label="Yili, back to top">
+        <span class="mark-symbol">YL</span>
+        <span>YILI</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#work">Work</a>
+        <a href="#method">Method</a>
+        <a class="nav-contact" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="shell hero" aria-labelledby="hero-title">
+      <div class="hero-main">
+        <span class="eyebrow">Taiwan · Backend systems · AI integration</span>
+        <h1 id="hero-title">I turn daily friction into software people <em>keep using.</em></h1>
+        <p class="hero-copy">I’m Yili, a product-minded backend builder. I define the problem, challenge the product assumption, ship the narrowest useful loop, and make it survive real operation.</p>
+        <div class="hero-actions"><a class="button primary" href="#work">Explore the work</a></div>
+        <div class="hero-contacts"><a href="mailto:yili.code@gmail.com">yili.code@gmail.com</a><a href="https://github.com/yili-code" target="_blank" rel="noreferrer">github.com/yili-code</a></div>
+      </div>
+
+      <aside class="proof-panel" aria-label="Three systems Yili has shipped">
+        <p>Three systems I use in real life</p>
+        <h2>Built to survive beyond the demo.</h2>
+        <ul class="proof-list">
+          <li><strong>Crypto Flash</strong><span>Running for about two months in a 10-member Telegram group.</span></li>
+          <li><strong>Mnemosyne</strong><span>Deployed and used for vocabulary generation and review.</span></li>
+          <li><strong>News Agent</strong><span>Scheduled daily briefings with explicit failure boundaries.</span></li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section-block" id="work" aria-labelledby="work-title">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="section-kicker">Projects</span>
+          <div><h2 class="section-title" id="work-title">Systems built for different kinds of time.</h2><p class="section-deck">Each project began with a recurring cost in my own workflow: attention lost, knowledge forgotten, or context scattered. I built the smallest useful loop, then let real use decide what deserved to stay.</p></div>
+        </div>
+
+        <div class="projects">
+          <article class="project reveal">
+            <div class="project-copy">
+              <div>
+                <span class="project-index">01 · Minutes</span>
+                <h3>Crypto Flash</h3>
+                <p class="project-summary"><span class="problem-label">Why I built it</span>I was tired of reading every market alert just to find the few that could change risk. Speed without context is still noise. I built Crypto Flash to filter the feed, explain why an event matters to crypto, and keep recent context searchable inside Telegram.</p>
+                <div class="project-evidence"><strong>What it became:</strong> live alerts, daily digests, search, topic tracking, timelines, and Gemini Q&amp;A.<br><strong>Current evidence:</strong> operated for about two months in a 10-member group; feedback remains founder-led.</div>
+                <ul class="tags" aria-label="Crypto Flash technologies">
+                  <li>Python</li><li>asyncio</li><li>WebSockets</li><li>Gemini</li><li>GitHub Actions</li>
+                </ul>
+              </div>
+              <a class="project-link" href="https://github.com/Yili-code/Crypto-Flash" target="_blank" rel="noreferrer">Read the repository</a>
+            </div>
+            <div class="project-media project-media-gallery">
+              <div class="product-window crypto-gallery" data-gallery>
+                <div class="window-head"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Real Telegram output</span></div>
+                <div class="gallery-tabs" role="tablist" aria-label="Crypto Flash examples">
+                  <button class="gallery-tab" type="button" role="tab" id="tab-alert" aria-selected="true" aria-controls="panel-alert">Event impact</button>
+                  <button class="gallery-tab" type="button" role="tab" id="tab-digest" aria-selected="false" aria-controls="panel-digest" tabindex="-1">Daily digest</button>
+                  <button class="gallery-tab" type="button" role="tab" id="tab-commands" aria-selected="false" aria-controls="panel-commands" tabindex="-1">Query &amp; track</button>
+                </div>
+                <div class="gallery-stage">
+                  <figure class="gallery-panel is-active" role="tabpanel" id="panel-alert" aria-labelledby="tab-alert"><img src="assets/crypto-flash.png" alt="Crypto Flash explaining how a weak US employment report affects crypto liquidity and market sentiment" width="803" height="438" decoding="async"><figcaption>A market-moving signal, translated into impact.</figcaption></figure>
+                  <figure class="gallery-panel" role="tabpanel" id="panel-digest" aria-labelledby="tab-digest" hidden><img src="assets/daily-digest.png" alt="Crypto Flash daily briefing summarizing important PCE and liquidity developments" width="803" height="446" loading="lazy" decoding="async"><figcaption>The day compressed into a 30-second briefing.</figcaption></figure>
+                  <figure class="gallery-panel" role="tabpanel" id="panel-commands" aria-labelledby="tab-commands" hidden><div class="tracking-proof"><img src="assets/command-menu.png" alt="Crypto Flash commands for search, digests, tracking, timelines, updates, status, and Gemini analysis" width="794" height="785" loading="lazy" decoding="async"><img class="reminder-shot" src="assets/event-reminder.png" alt="A Crypto Flash reminder for an upcoming US employment event in Taiwan time" width="460" height="150" loading="lazy" decoding="async"></div><figcaption>Track a topic, then get reminded before the event.</figcaption></figure>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <div class="project-copy">
+              <div>
+                <span class="project-index">02 · Days to months</span>
+                <h3>Mnemosyne</h3>
+                <p class="project-summary"><span class="problem-label">Why I built it</span>I could understand a new word in seconds, then forget it a few days later. Dictionaries and chat answers solve the lookup, not the review loop. I built Mnemosyne to turn a word into a validated Traditional Chinese card and bring it back when recall should be tested.</p>
+                <div class="project-evidence"><strong>What it became:</strong> an owner-only workflow with structured generation, durable retries, and recall-graded spaced repetition.<br><strong>Current evidence:</strong> a deployed, self-used alpha with real generation and review interactions—not a claim of public adoption or proven learning outcomes.</div>
+                <ul class="tags" aria-label="Mnemosyne technologies">
+                  <li>FastAPI</li><li>Firestore</li><li>Cloud Run</li><li>Cloud Tasks</li><li>Pydantic</li>
+                </ul>
+              </div>
+              <a class="project-link" href="https://github.com/Yili-code/Mnemosyne" target="_blank" rel="noreferrer">Read the repository</a>
+            </div>
+            <div class="project-media project-media-gallery">
+              <div class="product-window mnemosyne-gallery" data-gallery>
+                <div class="window-head"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Real learning loop</span></div>
+                <div class="gallery-tabs" role="tablist" aria-label="Mnemosyne examples">
+                  <button class="gallery-tab" type="button" role="tab" id="tab-mnemo-card" aria-selected="true" aria-controls="panel-mnemo-card">Generate</button>
+                  <button class="gallery-tab" type="button" role="tab" id="tab-mnemo-review" aria-selected="false" aria-controls="panel-mnemo-review" tabindex="-1">Review</button>
+                </div>
+                <div class="gallery-stage">
+                  <figure class="gallery-panel is-active" role="tabpanel" id="panel-mnemo-card" aria-labelledby="tab-mnemo-card"><img src="assets/mnemosyne-card.png" alt="Mnemosyne generating a structured Traditional Chinese vocabulary card for the word gimmick" width="763" height="1082" loading="lazy" decoding="async"><figcaption>Turn a word into reusable learning context.</figcaption></figure>
+                  <figure class="gallery-panel" role="tabpanel" id="panel-mnemo-review" aria-labelledby="tab-mnemo-review" hidden><img class="review-shot" src="assets/mnemosyne-review.png" alt="Mnemosyne recall review with Hard, Good, and Easy grading controls" width="535" height="156" loading="lazy" decoding="async"><figcaption>Grade recall; let the next review follow from it.</figcaption></figure>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <div class="project-copy">
+              <div>
+                <span class="project-index">03 · Daily</span>
+                <h3>News Agent</h3>
+                <p class="project-summary"><span class="problem-label">Why I built it</span>I wanted to follow software, AI, and startups without starting every morning inside a pile of feeds. Most updates repeat the headline; they do not earn my attention. I built News Agent to deduplicate the stream and deliver one concise English briefing with the source trail intact.</p>
+                <div class="project-evidence"><strong>What it became:</strong> a scheduled pipeline that selects one high-signal story, separates reported facts from inference, and connects it to an engineering or product decision.<br><strong>Current evidence:</strong> scheduled ingestion, history-aware deduplication, concise English generation, and Telegram delivery with explicit offline-vs-live verification boundaries.</div>
+                <ul class="tags" aria-label="News Agent technologies">
+                  <li>RSS</li><li>Gemini</li><li>Telegram</li><li>Python</li><li>CI</li>
+                </ul>
+              </div>
+              <a class="project-link" href="https://github.com/Yili-code/News-Agent" target="_blank" rel="noreferrer">Read the repository</a>
+            </div>
+            <div class="project-media">
+              <figure class="product-window news-proof">
+                <div class="window-head"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Real daily briefing</span></div>
+                <div class="news-crop"><img src="assets/news-brief.png" alt="News Agent briefing separating what happened, technical core, founder perspective, and why the story matters" width="747" height="834" loading="lazy" decoding="async"></div>
+                <figcaption>One story, connected to an engineering or product decision.</figcaption>
+              </figure>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" id="method" aria-labelledby="method-title">
+      <div class="shell">
+        <div class="section-head reveal">
+          <span class="section-kicker">How I build</span>
+          <h2 class="section-title" id="method-title">Own the ambiguity, not only the implementation.</h2>
+        </div>
+        <div class="method-grid reveal">
+          <article class="method-step"><b>01</b><h3>Frame the real problem</h3><p>Separate the user’s constraint from the first requested feature.</p></article>
+          <article class="method-step"><b>02</b><h3>Ship the narrow loop</h3><p>Build the smallest path from input to a result someone can actually use.</p></article>
+          <article class="method-step"><b>03</b><h3>Design for failure</h3><p>Treat retries, state, idempotency, and provider boundaries as product behavior.</p></article>
+          <article class="method-step"><b>04</b><h3>Learn from operation</h3><p>Observe what survives contact with real workflows, then refine without inflating evidence.</p></article>
+        </div>
+        <div class="principle reveal">
+          <strong>AI is leverage.<br>The product is the outcome.</strong>
+          <p>I care as much about the unglamorous layer—queues, delayed jobs, state, deployment, and honest validation—as the model call itself. A demo proves possibility. Operation reveals whether the system deserves to stay.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" id="contact" aria-labelledby="contact-title">
+      <div class="shell contact reveal">
+        <h2 id="contact-title">Build something <span>useful.</span></h2>
+        <div class="contact-card">
+          <p>Open to early-stage product collaboration, technical co-founder conversations, and backend engineering opportunities.</p>
+          <a class="contact-email" href="mailto:yili.code@gmail.com">yili.code@gmail.com</a>
+          <div class="availability">Current capacity: 8–16 hours/week. Open to deeper commitment for paid roles.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <span>Yili · Product-minded backend builder</span>
+    <span>Built in Taiwan · Evidence over theatre</span>
+  </footer>
+
+  <script>
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const root = document.documentElement;
+    const progress = document.querySelector('.page-progress');
+
+    const updateProgress = () => {
+      const max = root.scrollHeight - window.innerHeight;
+      progress.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+    };
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive: true });
+
+    if (!reducedMotion && window.matchMedia('(pointer: fine)').matches) {
+      window.addEventListener('pointermove', (event) => {
+        root.style.setProperty('--pointer-x', `${event.clientX}px`);
+        root.style.setProperty('--pointer-y', `${event.clientY + window.scrollY}px`);
+      }, { passive: true });
+    }
+
+    const items = document.querySelectorAll('.reveal');
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      items.forEach((item) => item.classList.add('visible'));
+    } else {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      items.forEach((item) => observer.observe(item));
+    }
+
+    const navLinks = [...document.querySelectorAll('.nav-links a')];
+    const sections = [...document.querySelectorAll('main section[id]')];
+    if ('IntersectionObserver' in window) {
+      const sectionObserver = new IntersectionObserver((entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        navLinks.forEach((link) => link.removeAttribute('aria-current'));
+        const active = navLinks.find((link) => link.getAttribute('href') === `#${visible.target.id}`);
+        if (active) active.setAttribute('aria-current', 'true');
+      }, { rootMargin: '-20% 0px -60%', threshold: [0.05, 0.2, 0.5] });
+      sections.forEach((section) => sectionObserver.observe(section));
+    }
+
+    document.querySelectorAll('[data-gallery]').forEach((gallery) => {
+      const tabs = [...gallery.querySelectorAll('[role="tab"]')];
+      const panels = [...gallery.querySelectorAll('[role="tabpanel"]')];
+
+      const selectTab = (tab) => {
+        tabs.forEach((item) => {
+          const selected = item === tab;
+          item.setAttribute('aria-selected', String(selected));
+          item.tabIndex = selected ? 0 : -1;
+        });
+        panels.forEach((panel) => {
+          const selected = panel.id === tab.getAttribute('aria-controls');
+          panel.hidden = !selected;
+          panel.classList.toggle('is-active', selected);
+        });
+      };
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => selectTab(tab));
+        tab.addEventListener('keydown', (event) => {
+          if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+          event.preventDefault();
+          const targetIndex = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+          tabs[targetIndex].focus();
+          selectTab(tabs[targetIndex]);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
