@@ -626,9 +626,12 @@
     .project-evidence { border-left: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: transparent; padding: 18px 0; }
     .project-evidence strong { color: var(--mint); }
     .tags li { font-family: var(--mono); }
-    .project-link { display: inline-flex; align-items: center; gap: 9px; border-bottom: 0; }
-    .project-link::after { content: "↗"; color: var(--mint); transition: transform 180ms ease; }
-    .project-link:hover::after { transform: translate(3px, -3px); }
+    .project-link {
+      display: inline-block;
+      border-bottom: 1px solid rgba(94, 234, 212, 0.58);
+      transition: color 180ms ease, border-color 180ms ease;
+    }
+    .project-link:hover { color: var(--mint); border-bottom-color: var(--mint); }
     .project-media { padding: clamp(24px, 4vw, 52px); }
 
     .product-window {
